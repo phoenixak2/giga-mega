@@ -20,9 +20,9 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
   return NextResponse.json(service);
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
   const service = await prisma.service.delete({
-    where: { id: params.id },
+    where: { id: context.params.id },
   });
   return NextResponse.json(service);
 }
