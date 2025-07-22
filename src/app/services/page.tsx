@@ -1,37 +1,24 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+"use client";
+import { useEffect, useState } from "react";
+import ServiceCard from "@/components/ServiceCard";
+import { motion } from "framer-motion";
 
 interface Service {
-  id: number;
+  id: string;
   name: string;
   description: string;
 }
 
-const staticServices = [
-  { id: 101, name: 'Windows Installation', description: 'Fresh installations and upgrades of all Windows versions.' },
-  { id: 102, name: 'Programs & Games Downloads', description: 'We can download and install any software or game you need.' },
-];
-
-export default function ServicesPage() {
+const ServicesPage = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchServices = async () => {
-      try {
-        const res = await fetch('/api/services');
-        if (!res.ok) {
-          throw new Error('Failed to fetch services');
-        }
-        const data = await res.json();
-        setServices(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred');
-      } finally {
-        setLoading(false);
-      }
+      const res = await fetch("/api/services");
+      const data = await res.json();
+      setServices(data);
+      setLoading(false);
     };
 
     fetchServices();
@@ -41,25 +28,40 @@ export default function ServicesPage() {
     return <div className="text-center py-20">Loading...</div>;
   }
 
-  if (error) {
-    return <div className="text-center py-20 text-red-500">Error: {error}</div>;
-  }
-
-  const allServices = [...services, ...staticServices];
-
   return (
-    <div className="bg-gray-800 text-white py-20">
+    <div className="bg-primary text-primary-foreground py-20">
       <div className="container mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12">Our Services</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {allServices.map((service) => (
-            <div key={service.id} className="bg-gray-700 p-8 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-2">{service.name}</h2>
-              <p className="text-gray-400">{service.description}</p>
-            </div>
+        <motion.h1
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-5xl font-extrabold text-center mb-12"
+        >
+          Our Services
+        </motion.h1>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-10"
+        >
+          {services.map((service, i) => (
+            <motion.div
+              key={service.id}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+            >
+              <ServiceCard
+                name={service.name}
+                description={service.description}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
-}
+};
+
+export default ServicesPage;

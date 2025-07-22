@@ -5,13 +5,17 @@ import { useState, useEffect } from 'react';
 interface Service {
   id: number;
   name: string;
+  description: string;
   price: number;
+  imageUrl: string;
 }
 
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -26,7 +30,7 @@ export default function ServicesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const serviceData = { name, price: parseFloat(price) };
+    const serviceData = { name, description, price: parseFloat(price), imageUrl };
 
     if (editingId) {
       await fetch(`/api/services/${editingId}`, {
@@ -47,7 +51,9 @@ export default function ServicesPage() {
 
   const handleEdit = (service: Service) => {
     setName(service.name);
+    setDescription(service.description);
     setPrice(service.price.toString());
+    setImageUrl(service.imageUrl);
     setEditingId(service.id);
   };
 
@@ -58,7 +64,9 @@ export default function ServicesPage() {
 
   const resetForm = () => {
     setName('');
+    setDescription('');
     setPrice('');
+    setImageUrl('');
     setEditingId(null);
   };
 
@@ -78,6 +86,15 @@ export default function ServicesPage() {
           />
         </div>
         <div className="mb-4">
+          <label className="block mb-1">Description</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+        <div className="mb-4">
           <label className="block mb-1">Price</label>
           <input
             type="number"
@@ -85,6 +102,15 @@ export default function ServicesPage() {
             onChange={(e) => setPrice(e.target.value)}
             className="w-full p-2 border rounded"
             required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1">Image URL</label>
+          <input
+            type="text"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            className="w-full p-2 border rounded"
           />
         </div>
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">

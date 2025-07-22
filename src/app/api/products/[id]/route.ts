@@ -14,10 +14,17 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const data = await request.json();
+  const { name, description, price, imageUrl, category, stock } = await request.json();
   const product = await prisma.product.update({
     where: { id },
-    data,
+    data: {
+      name,
+      description,
+      price,
+      imageUrl,
+      category,
+      stock,
+    },
   });
   return NextResponse.json(product);
 }

@@ -1,45 +1,88 @@
-import Link from 'next/link';
+"use client";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
-export default function ContactPage() {
+const ContactPage = () => {
   return (
-    <div className="bg-gray-800 text-white py-20">
-      <div className="container mx-auto text-center">
-        <h1 className="text-4xl font-bold mb-12">Contact Us</h1>
-        <div className="bg-gray-700 p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
-          <div className="text-left space-y-4">
-            <p>
-              <span className="font-bold">Address:</span> 3 شارع صعب صالح عين شمس
-            </p>
-            <p>
-              <span className="font-bold">Eng. Mina:</span> 
-              <a href="tel:01551652641" className="ml-2 hover:text-blue-400 transition-colors">01551652641</a>
-            </p>
-            <p>
-              <span className="font-bold">Eng. Beshoy:</span> 
-              <a href="tel:01200510270" className="ml-2 hover:text-blue-400 transition-colors">01200510270</a>
-            </p>
+    <div className="bg-primary text-primary-foreground py-20">
+      <div className="container mx-auto">
+        <motion.h1
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-5xl font-extrabold text-center mb-12"
+        >
+          Contact Us
+        </motion.h1>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="bg-secondary p-10 rounded-lg shadow-lg max-w-3xl mx-auto"
+        >
+          <h2 className="text-3xl font-bold text-center mb-8">
+            Get in Touch
+          </h2>
+          <div className="space-y-6">
             <div className="flex items-center">
-              <span className="font-bold">Facebook:</span>
-              <Link href="https://www.facebook.com/people/GEGA-MEGA/61556049603580/" target="_blank" className="ml-2 hover:text-blue-400 transition-colors">
-                GEGA & MEGA
+              <span className="text-2xl mr-4">📍</span>
+              <p className="text-secondary-foreground">
+                3 شارع صعب صالح عين شمس
+              </p>
+            </div>
+            <div className="flex items-center">
+              <span className="text-2xl mr-4">📞</span>
+              <a
+                href="tel:01551652641"
+                className="text-secondary-foreground hover:text-primary-foreground transition-colors"
+              >
+                Eng. Mina: 01551652641
+              </a>
+            </div>
+            <div className="flex items-center">
+              <span className="text-2xl mr-4">📞</span>
+              <a
+                href="tel:01200510270"
+                className="text-secondary-foreground hover:text-primary-foreground transition-colors"
+              >
+                Eng. Beshoy: 01200510270
+              </a>
+            </div>
+            <div className="flex items-center">
+              <span className="text-2xl mr-4">📘</span>
+              <Link
+                href="https://www.facebook.com/people/GEGA-MEGA/61556049603580/"
+                target="_blank"
+                className="text-secondary-foreground hover:text-primary-foreground transition-colors"
+              >
+                Facebook
               </Link>
             </div>
             <div className="flex items-center">
-              <span className="font-bold">WhatsApp (Mina):</span>
-              <Link href="https://wa.me/201551652641" target="_blank" className="ml-2 hover:text-blue-400 transition-colors">
-                Chat with Eng. Mina
+              <span className="text-2xl mr-4">📱</span>
+              <Link
+                href="https://wa.me/201551652641"
+                target="_blank"
+                className="text-secondary-foreground hover:text-primary-foreground transition-colors"
+              >
+                WhatsApp (Mina)
               </Link>
             </div>
             <div className="flex items-center">
-              <span className="font-bold">WhatsApp (Beshoy):</span>
-              <Link href="https://wa.me/201200510270" target="_blank" className="ml-2 hover:text-blue-400 transition-colors">
-                Chat with Eng. Beshoy
+              <span className="text-2xl mr-4">📱</span>
+              <Link
+                href="https://wa.me/201200510270"
+                target="_blank"
+                className="text-secondary-foreground hover:text-primary-foreground transition-colors"
+              >
+                WhatsApp (Beshoy)
               </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
-}
+};
+
+export default ContactPage;

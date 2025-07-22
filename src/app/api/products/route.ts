@@ -7,9 +7,16 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
+  const { name, description, price, imageUrl, category, stock } = await request.json();
   const product = await prisma.product.create({
-    data,
+    data: {
+      name,
+      description,
+      price,
+      imageUrl,
+      category,
+      stock,
+    },
   });
   return NextResponse.json(product, { status: 201 });
 }

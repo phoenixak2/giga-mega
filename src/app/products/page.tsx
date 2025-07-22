@@ -1,35 +1,25 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+"use client";
+import { useEffect, useState } from "react";
+import ProductCard from "@/components/ProductCard";
+import { motion } from "framer-motion";
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
-  description: string;
   price: number;
-  image: string;
+  imageUrl: string;
 }
 
-export default function ProductsPage() {
+const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      try {
-        const res = await fetch('/api/products');
-        if (!res.ok) {
-          throw new Error('Failed to fetch products');
-        }
-        const data = await res.json();
-        setProducts(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred');
-      } finally {
-        setLoading(false);
-      }
+      const res = await fetch("/api/products");
+      const data = await res.json();
+      setProducts(data);
+      setLoading(false);
     };
 
     fetchProducts();
@@ -39,25 +29,41 @@ export default function ProductsPage() {
     return <div className="text-center py-20">Loading...</div>;
   }
 
-  if (error) {
-    return <div className="text-center py-20 text-red-500">Error: {error}</div>;
-  }
-
   return (
-    <div className="bg-gray-800 text-white py-20">
+    <div className="bg-primary text-primary-foreground py-20">
       <div className="container mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12">Our Products</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <div key={product.id} className="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:-translate-y-2 transition-transform">
-              <Image src={product.image || '/globe.svg'} alt={product.name} className="h-48 w-full object-cover rounded-md mb-6" width={192} height={192} />
-              <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
-              <p className="text-gray-400 mb-4">{product.description}</p>
-              <p className="text-xl font-bold text-blue-400">${product.price}</p>
-            </div>
+        <motion.h1
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-5xl font-extrabold text-center mb-12"
+        >
+          Our Products
+        </motion.h1>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+        >
+          {products.map((product, i) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+            >
+              <ProductCard
+                name={product.name}
+                price={product.price}
+                imageUrl={product.imageUrl}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
-}
+};
+
+export default ProductsPage;
