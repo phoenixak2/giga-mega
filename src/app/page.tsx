@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Mock data for featured products - will be replaced with API call
 const featuredProducts = [
@@ -26,7 +27,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (
               <div key={product.id} className="bg-gray-700 p-8 rounded-lg shadow-lg transform hover:-translate-y-2 transition-transform">
-                <img src={product.image} alt={product.name} className="h-24 mx-auto mb-6" />
+                <Image src={product.image} alt={product.name} className="h-24 mx-auto mb-6" width={96} height={96} />
                 <h3 className="text-2xl font-bold mb-2">{product.name}</h3>
                 <p>{product.description}</p>
               </div>
